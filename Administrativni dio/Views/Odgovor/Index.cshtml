@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "Odgovor";
+    ViewBag.Name = Session["Username"] ?? "random person";
+    ViewBag.Visible = Session["Username"] == null ? "invisible" : "visible";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Vaša rezervacija je zabilježena</h2>
+

@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    ViewBag.Name = Session["Username"] ?? "random person";
+    ViewBag.Visible = Session["Username"] == null ? "invisible" : "visible";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Krivi unos provjere</h2>
+

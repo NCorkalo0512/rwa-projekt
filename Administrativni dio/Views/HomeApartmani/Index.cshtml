@@ -1,0 +1,106 @@
+﻿@model Administrativni_dio.Models.SearchModel
+@{
+    ViewBag.Title = "Home";
+    ViewBag.Name = Session["Username"] ?? "random person";
+    ViewBag.Visible = Session["Username"] == null ? "invisible" : "visible";
+}
+
+<div class="jumbotron mx-auto justify-content-center mb-5">
+    <h1 class="display-4">Filtriranje i sortiranje</h1>
+    @using (Html.BeginForm("Filtriraj", "HomeApartmani", FormMethod.Post))
+    {<div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Max Odraslih</span>
+            </div>
+            <input type="text" class="form-control" placeholder="Max Odraslih" name="MaxAdults" id="MaxAdults">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Max Djece</span>
+            </div>
+            <input type="text" class="form-control" placeholder="Max Djece" name="MaxChildren" id="MaxChildren">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Sobe</span>
+            </div>
+            <input type="text" class="form-control" placeholder="Sobe" name="Rooms" id="Rooms">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Grad</span>
+            </div>
+            <input type="text" class="form-control" placeholder="Grad" name="City" id="City">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Sortiranje po cijeni</span>
+            </div>
+            @Html.DropDownListFor(
+           model => model.Sort,
+           new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "Normalno"  },
+                       new { value = 1 , text = "Najjeftinije prvo" },
+                       new { value = 2 , text = "Najskuplje prvo"}
+                    },
+                  "value",
+                  "text",
+                  Model.Sort
+           )
+        )
+        </div>
+        <button type="submit" class="btn-success">Filter</button>
+    }
+</div>
+
+
+<div class="justify-content-center">
+    <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
+
+        @if (Model != null)
+        {
+            int a = 0;
+            foreach (var item in Model.Apartmani)
+            {
+                if (a % 2 == 0)
+                {
+                    <div class="col justify-content-center mx-auto">
+
+                        <div class="card justify-content-center mx-auto">
+
+                            <img src="@item.PutanjaSlike" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    @item.ApartmentName
+                                    @if (item.ApartmentStatus == "Slobodno")
+                                    {
+                                        <p class="text-success">@item.ApartmentStatus</p>
+                                    }
+                                    @if (item.ApartmentStatus == "Zauzeto")
+                                    {
+                                        <p class="text-danger">@item.ApartmentStatus</p>
+                                    }
+                                    @if (item.ApartmentStatus == "Rezervirano")
+                                    {
+                                        <p class="text-warning">@item.ApartmentStatus</p>
+                                    }
+                                </h5>
+                                <p class="card-text">City: @item.City</p>
+                                <p class="card-text">Price: @item.Price</p>
+                                @using (Html.BeginForm("Index", "DetaljiApartmana", FormMethod.Post))
+                                {
+                                    <input type="hidden" class="form-control" value="@item.IDApartment" name="IdApartman" id="IdApartman">
+                                    <button class="btn btn-primary" type="submit">Detalji</button>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>
+
+

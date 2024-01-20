@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "O nama";
+    ViewBag.Name = Session["Username"] ?? "random person";
+    ViewBag.Visible = Session["Username"] == null ? "invisible" : "visible";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>O nama</h2>
+<p>Ova stranica je napravljena u sklopu kolegija RWA na Visokom Učilištu Algebra od strane Nikoline Čorkalo</p>
+
